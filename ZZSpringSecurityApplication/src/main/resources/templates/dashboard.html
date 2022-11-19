@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+ 
+
+
+</head>
+<body>
+<h1>Welcome to Dash-Board</h1>
+<form>
+<table>
+<tr>
+<td>States</td>
+<td><select name="comboState" id="comboState">
+<option th:each="state : ${stateList}" th:text="${state.name}" th:value="${state.id}"/>
+</select></td>
+</tr>
+
+<tr>
+<td>District</td>
+<td><select name="comboDistrict" id="comboDistrict">
+</select></td>
+</tr>
+
+</table>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+		<script>
+		$(document).ready(function(){
+			 
+			   alert("f");
+			   $("#comboState").change(function(){
+				    var countryId = $(this).val();
+				  // alert(countryId);
+				   $.ajax({
+				    	type: 'GET',
+				    	url : 'loadDistrictBySate/'+countryId,
+				    	success : function(result) {
+				    		var result=JSON.parse(result);
+				    		var s='';
+				    		for (var i=0;i<result.length;i++)
+				    			{
+				    			    s+='<option value="'+result[i].id+'">'+result[i].name+'</option>';
+				    			}
+				    		$("#comboDistrict").html(s)
+				    	}
+				    	
+				    });
+				    
+				  });
+			    
+			
+			});
+		</script>
+</body>
+</html>
